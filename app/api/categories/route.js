@@ -37,3 +37,17 @@ export async function POST(req) {
     return Response.json({ error: "Internal server error." }, { status: 500 });
   }
 }
+
+
+export async function GET(req) {
+  try {
+    await connectMongo();
+
+    const categories = await Category.find().sort({ sortOrder: 1 });
+
+    return Response.json(categories, { status: 200 });
+  } catch (error) {
+    console.error("❌ Failed to fetch categories:", error);
+    return Response.json({ error: "Internal server error." }, { status: 500 });
+  }
+}
